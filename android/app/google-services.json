@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "876341753932",
+    "project_id": "marketplace-sutt",
+    "storage_bucket": "marketplace-sutt.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876341753932:android:a880b3a90933eb29fa1ce9",
+        "android_client_info": {
+          "package_name": "com.marketplace.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRpd0bDXuEJ29KWDktgt3B-dQQhrZVRek"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
