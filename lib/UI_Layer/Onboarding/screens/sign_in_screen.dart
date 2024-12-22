@@ -1,6 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:marketplace/UI_Layer/Routes/routes.dart';
 import 'package:marketplace/UI_Layer/Styles/styles.dart';
 import 'package:marketplace/UI_Layer/Styles/text_styles.dart';
 
@@ -68,8 +68,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {
-                          context.go('/log_in');
+                        onPressed: () async {
+                          try {
+                            final credential = await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                                    email: _emailController.text,
+                                    password: _passController.text);
+                            context.go('/lets_start');
+                          } on FirebaseAuthException catch (e) {
+                            if (e.code == 'user-not-found') {
+                              print('No user found for that email.');
+                            } else if (e.code == 'wrong-password') {
+                              print('Wrong password provided for that user.');
+                            }
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(100, 60))
@@ -77,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 backgroundColor:
                                     const WidgetStatePropertyAll(Colors.black)),
                         child: Text(
-                          "GET STARTED",
+                          "Sign In",
                           style: whiteText,
                         ),
                       ),
@@ -121,12 +133,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Join with us"),
+                    const Text("Join with us."),
                     TextButton(
                         onPressed: () {
-                          context.go('/sign_up');
+                          context.push('/sign_up');
                         },
-                        child: const Text("Create Account"))
+                        child: const Text(
+                          "Create Account",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ))
                   ],
                 )
               ],

@@ -120,7 +120,7 @@ class _GetStartedState extends State<GetStarted> {
                       Expanded(
                         child: ElevatedButton(
                           onPressed: () {
-                            context.go('/log_in');
+                            context.push('/log_in');
                           },
                           style: ElevatedButton.styleFrom(
                                   minimumSize: const Size(100, 60))

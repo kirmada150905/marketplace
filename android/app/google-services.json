@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "876341753932",
-    "project_id": "marketplace-sutt",
-    "storage_bucket": "marketplace-sutt.firebasestorage.app"
+    "project_number": "210090252121",
+    "project_id": "shoesly-sutt",
+    "storage_bucket": "shoesly-sutt.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:876341753932:android:a880b3a90933eb29fa1ce9",
+        "mobilesdk_app_id": "1:210090252121:android:aa7fb01b53819e00af1e48",
         "android_client_info": {
-          "package_name": "com.marketplace.app"
+          "package_name": "com.shoesly.app"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCRpd0bDXuEJ29KWDktgt3B-dQQhrZVRek"
+          "current_key": "AIzaSyAN7edSO_OL__JrcFZNDcJm8swetKcFpbA"
         }
       ],
       "services": {

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:marketplace/UI_Layer/Styles/styles.dart';
@@ -13,6 +14,9 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
+
+  IconData _checkBoxIcon = Icons.circle_outlined;
+  bool _checkBox = false;
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +49,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Name",
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         TextField(
-                          controller: _emailController,
                           decoration: loginFields.copyWith(
                             hintText: "Prista Candra",
                           ),
@@ -60,9 +63,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Email",
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         TextField(
                           controller: _emailController,
@@ -75,7 +78,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Password",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
@@ -90,7 +93,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Confirm Password",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
@@ -108,21 +111,71 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             Row(
               children: [
-                IconButton(onPressed: () {}, icon: Icon(Icons.circle_outlined)),
-                Text(
-                  "By Signing up you agree to the\n Terms of Service and Privacy Policy",
-                  textAlign: TextAlign.center,
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _checkBox = !_checkBox;
+                      if (_checkBox)
+                        _checkBoxIcon = Icons.check_circle;
+                      else
+                        _checkBoxIcon = Icons.circle_outlined;
+                    });
+                  },
+                  icon: Icon(_checkBoxIcon),
+                ),
+                RichText(
+                  textAlign: TextAlign.start,
+                  text: const TextSpan(
+                    text: "By signing up you agree to the",
+                    style: TextStyle(color: Colors.black, fontSize: 14.0),
+                    children: [
+                      TextSpan(
+                        text: " Terms of Service\n",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      TextSpan(
+                        text: " and ",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      TextSpan(
+                        text: "Privacy Policy",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
+            SizedBox(height: 20),
             Column(
               children: [
                 Row(
                   children: [
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {
-                          context.go('/log_in');
+                        onPressed: () async {
+                          print("Trying to sign in");
+                          try {
+                            final credential = await FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                              email: _emailController.text,
+                              password: _passController.text,
+                            );
+                            context.go('/lets_start');
+                          } on FirebaseAuthException catch (e) {
+                            if (e.code == 'weak-password') {
+                              print('The password provided is too weak.');
+                            } else if (e.code == 'email-already-in-use') {
+                              print(
+                                  'The account already exists for that email.');
+                            }
+                          } catch (e) {
+                            print(e);
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(100, 60))
@@ -130,14 +183,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 backgroundColor:
                                     const WidgetStatePropertyAll(Colors.black)),
                         child: Text(
-                          "GET STARTED",
+                          "Sign Up",
                           style: whiteText,
                         ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -174,9 +227,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Join with us"),
+                    const Text("Have Account?"),
                     TextButton(
-                        onPressed: () {}, child: const Text("Create Account"))
+                        onPressed: () {
+                          context.pop();
+                        },
+                        child: const Text(
+                          "Sign In Now",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ))
                   ],
                 )
               ],
