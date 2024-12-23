@@ -136,39 +136,39 @@ class _GetStartedState extends State<GetStarted> {
                     ],
                   ),
                   const SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                                  minimumSize: const Size(100, 60))
-                              .copyWith(
-                                  backgroundColor: const WidgetStatePropertyAll(
-                                      Colors.white)),
-                          child: Text(
-                            "GOOGLE",
-                            style: blackText,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                                  minimumSize: const Size(100, 60))
-                              .copyWith(
-                                  backgroundColor: const WidgetStatePropertyAll(
-                                      Colors.white)),
-                          child: Text(
-                            "FACEBOOK",
-                            style: blackText,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     Expanded(
+                  //       child: ElevatedButton(
+                  //         onPressed: () {},
+                  //         style: ElevatedButton.styleFrom(
+                  //                 minimumSize: const Size(100, 60))
+                  //             .copyWith(
+                  //                 backgroundColor: const WidgetStatePropertyAll(
+                  //                     Colors.white)),
+                  //         child: Text(
+                  //           "GOOGLE",
+                  //           style: blackText,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     Expanded(
+                  //       child: ElevatedButton(
+                  //         onPressed: () {},
+                  //         style: ElevatedButton.styleFrom(
+                  //                 minimumSize: const Size(100, 60))
+                  //             .copyWith(
+                  //                 backgroundColor: const WidgetStatePropertyAll(
+                  //                     Colors.white)),
+                  //         child: Text(
+                  //           "FACEBOOK",
+                  //           style: blackText,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             ],

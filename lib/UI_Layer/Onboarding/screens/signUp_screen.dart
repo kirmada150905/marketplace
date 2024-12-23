@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:marketplace/UI_Layer/Styles/styles.dart';
 import 'package:marketplace/UI_Layer/Styles/text_styles.dart';
 
@@ -18,6 +19,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
   IconData _checkBoxIcon = Icons.circle_outlined;
   bool _checkBox = false;
 
+  Future<void> _signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) return;
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      context.go('/lets_start');
+    } catch (e) {
+      print('Google Sign-In Error: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +50,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Column(
-              //removing this is casuing text to behave differently??
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Create Account',
@@ -115,10 +135,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   onPressed: () {
                     setState(() {
                       _checkBox = !_checkBox;
-                      if (_checkBox)
-                        _checkBoxIcon = Icons.check_circle;
-                      else
-                        _checkBoxIcon = Icons.circle_outlined;
+                      _checkBoxIcon = _checkBox
+                          ? Icons.check_circle
+                          : Icons.circle_outlined;
                     });
                   },
                   icon: Icon(_checkBoxIcon),
@@ -150,7 +169,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Column(
               children: [
                 Row(
@@ -158,7 +177,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () async {
-                          print("Trying to sign in");
                           try {
                             final credential = await FirebaseAuth.instance
                                 .createUserWithEmailAndPassword(
@@ -196,7 +214,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   children: [
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: _signInWithGoogle,
                         style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(100, 60))
                             .copyWith(
@@ -204,20 +222,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     const WidgetStatePropertyAll(Colors.white)),
                         child: Text(
                           "GOOGLE",
-                          style: blackText,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(100, 60))
-                            .copyWith(
-                                backgroundColor:
-                                    const WidgetStatePropertyAll(Colors.white)),
-                        child: Text(
-                          "FACEBOOK",
                           style: blackText,
                         ),
                       ),
