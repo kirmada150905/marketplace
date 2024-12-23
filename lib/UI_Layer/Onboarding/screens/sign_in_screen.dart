@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:go_router/go_router.dart';
 import 'package:marketplace/UI_Layer/Styles/styles.dart';
 import 'package:marketplace/UI_Layer/Styles/text_styles.dart';
@@ -15,6 +16,29 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
 
+  Future<void> _signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser == null) {
+        return;
+      }
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      final userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      context.go('/lets_start');
+    } catch (e) {
+      print("Google Sign-In Error: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +50,6 @@ class _LoginScreenState extends State<LoginScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Column(
-              //removing this is casuing text to behave differently??
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Sign In',
@@ -41,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 const Text(
                   "Email",
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 TextField(
                   controller: _emailController,
@@ -102,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: _signInWithGoogle,
                         style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(100, 60))
                             .copyWith(
@@ -110,20 +133,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                     const WidgetStatePropertyAll(Colors.white)),
                         child: Text(
                           "GOOGLE",
-                          style: blackText,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(100, 60))
-                            .copyWith(
-                                backgroundColor:
-                                    const WidgetStatePropertyAll(Colors.white)),
-                        child: Text(
-                          "FACEBOOK",
                           style: blackText,
                         ),
                       ),

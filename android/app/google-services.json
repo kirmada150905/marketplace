@@ -12,7 +12,20 @@
           "package_name": "com.shoesly.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "210090252121-v1j93rcpt9mu0qflijdbvvc5ik14rojn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shoesly.app",
+            "certificate_hash": "2ffb0e8036895022d973a8e7b6093912f937a78c"
+          }
+        },
+        {
+          "client_id": "210090252121-pgnk73fa9ivg56j587n45ncv3qm90qg0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAN7edSO_OL__JrcFZNDcJm8swetKcFpbA"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210090252121-pgnk73fa9ivg56j587n45ncv3qm90qg0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "210090252121-mmhtaplbiuqabujk0ftc9rf9h4q775um.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.marketplace"
+              }
+            }
+          ]
         }
       }
     }
