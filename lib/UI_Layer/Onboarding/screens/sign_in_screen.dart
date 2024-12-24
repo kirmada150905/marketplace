@@ -33,9 +33,14 @@ class _LoginScreenState extends State<LoginScreen> {
       final userCredential =
           await FirebaseAuth.instance.signInWithCredential(credential);
 
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Sign In successful")),
+      );
       context.go('/lets_start');
     } catch (e) {
-      print("Google Sign-In Error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Sign In error: $e")),
+      );
     }
   }
 

@@ -15,6 +15,7 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
 
   IconData _checkBoxIcon = Icons.circle_outlined;
   bool _checkBox = false;
@@ -32,8 +33,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
         idToken: googleAuth.idToken,
       );
 
+          final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+
       await FirebaseAuth.instance.signInWithCredential(credential);
+
+    if (userCredential.user != null) {
+      await userCredential.user!.updateDisplayName(_nameController.text);
+      await userCredential.user!.reload();
       context.go('/lets_start');
+    }
     } catch (e) {
       print('Google Sign-In Error: $e');
     }
@@ -74,6 +82,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         TextField(
+                          controller: _nameController,
                           decoration: loginFields.copyWith(
                             hintText: "Prista Candra",
                           ),

@@ -9,6 +9,7 @@ final router = GoRouter(routes: [
       path: '/',
       builder: (context, state) {
         return const GetStarted();
+        // return const LetsStartScreen();
       },
       routes: [
         GoRoute(
